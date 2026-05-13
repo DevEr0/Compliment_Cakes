@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliment Cakes — Նվիրիր տորթ, արա կոմպլիմենտ</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --pink:#FF6B9D; --pink-lt:#FFE0EC; --pink-dk:#C8385A;
+    --yellow:#FFD93D; --yellow-lt:#FFF8D6;
+    --mint:#6BCBAB; --mint-lt:#D8F5EC;
+    --peach:#FF9A6C; --peach-lt:#FFE8D8;
+    --lavender:#B08FE8; --lav-lt:#EDE4FF;
+    --sky:#5BC8F5; --sky-lt:#DFF4FD;
+    --cream:#FFFBF2; --dark:#2A1F3D; --text:#3D2C4E; --muted:#7A6A8A;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(255,251,242,0.93); backdrop-filter:blur(12px);
+    border-bottom:2px solid var(--pink);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 5vw; height:70px;
+  }
+  .nav-logo { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:var(--dark); text-decoration:none; display:flex; align-items:center; gap:10px; }
+  .nav-logo span { color:var(--pink); }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a { font-size:0.88rem; font-weight:500; color:var(--text); text-decoration:none; padding:6px 0; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; }
+  .nav-links a:hover { color:var(--pink); border-color:var(--pink); }
+  .nav-order { background:var(--pink); color:#fff; border:none; border-radius:50px; padding:10px 24px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.9rem; cursor:pointer; text-decoration:none; transition:background .2s,transform .15s; white-space:nowrap; }
+  .nav-order:hover { background:var(--pink-dk); transform:scale(1.03); }
+
+  /* HERO */
+  .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:linear-gradient(135deg,var(--pink-lt) 0%,var(--yellow-lt) 50%,var(--lav-lt) 100%); padding:100px 5vw 60px; }
+  .hero-blobs { position:absolute; inset:0; pointer-events:none; }
+  .blob { position:absolute; border-radius:50%; opacity:.45; animation:float 8s ease-in-out infinite; }
+  .blob1{width:400px;height:400px;background:var(--pink);top:-100px;right:-80px;}
+  .blob2{width:300px;height:300px;background:var(--yellow);bottom:-60px;left:5%;animation-delay:2.5s;}
+  .blob3{width:200px;height:200px;background:var(--mint);top:40%;left:-60px;animation-delay:5s;}
+  .blob4{width:180px;height:180px;background:var(--lavender);bottom:10%;right:15%;animation-delay:1.5s;}
+  @keyframes float { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-25px) scale(1.05);} }
+  .hero-content { position:relative; text-align:center; max-width:720px; }
+  .hero-badge { display:inline-block; background:var(--yellow); color:var(--dark); font-weight:700; font-size:0.8rem; letter-spacing:.08em; text-transform:uppercase; padding:8px 20px; border-radius:50px; margin-bottom:1.5rem; animation:fadeDown .8s ease both; }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,7vw,5.5rem); font-weight:900; line-height:1.1; color:var(--dark); margin-bottom:1.2rem; animation:fadeDown .9s .1s ease both; }
+  .hero h1 em { font-style:italic; color:var(--pink); }
+  .hero-sub { font-size:1rem; color:var(--muted); line-height:1.75; max-width:500px; margin:0 auto 2.5rem; animation:fadeDown 1s .2s ease both; }
+  .hero-ctas { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation:fadeDown 1s .3s ease both; }
+  .btn-primary { background:var(--pink); color:#fff; padding:16px 36px; border-radius:50px; font-weight:600; font-size:1rem; text-decoration:none; transition:transform .2s,box-shadow .2s; box-shadow:0 6px 24px rgba(255,107,157,.4); }
+  .btn-primary:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(255,107,157,.5); }
+  .btn-secondary { background:#fff; color:var(--dark); padding:16px 36px; border-radius:50px; font-weight:600; font-size:1rem; text-decoration:none; border:2px solid var(--dark); transition:background .2s,transform .2s; }
+  .btn-secondary:hover { background:var(--dark); color:#fff; transform:translateY(-3px); }
+  .floaty { position:absolute; font-size:2.5rem; animation:spin-float 10s linear infinite; opacity:.7; }
+  .f1{top:12%;left:8%;animation-duration:9s;}
+  .f2{top:20%;right:10%;animation-duration:11s;animation-delay:1s;}
+  .f3{bottom:20%;left:12%;animation-duration:8s;animation-delay:2s;}
+  .f4{bottom:15%;right:8%;animation-duration:12s;animation-delay:3s;}
+  .f5{top:50%;left:4%;animation-duration:10s;animation-delay:.5s;}
+  @keyframes spin-float { 0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-20px) rotate(180deg);} 100%{transform:translateY(0) rotate(360deg);} }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px);} to{opacity:1;transform:translateY(0);} }
+
+  /* SHARED */
+  section { padding:80px 5vw; }
+  .section-label { display:inline-block; font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:6px 18px; border-radius:50px; margin-bottom:1rem; }
+  .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,3rem); font-weight:900; color:var(--dark); line-height:1.2; margin-bottom:1rem; }
+  .section-sub { font-size:1rem; color:var(--muted); line-height:1.75; max-width:500px; }
+
+  /* ABOUT */
+  .about { background:#fff; }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:6vw; align-items:center; max-width:1100px; margin:0 auto; }
+  .about-text .section-label { background:var(--pink-lt); color:var(--pink-dk); }
+  .chef-card { background:linear-gradient(135deg,var(--pink-lt),var(--yellow-lt)); border-radius:28px; padding:2.5rem; text-align:center; border:3px solid var(--pink); max-width:340px; box-shadow:0 20px 50px rgba(255,107,157,.2); }
+  .chef-avatar { width:120px; height:120px; border-radius:50%; background:linear-gradient(135deg,var(--pink),var(--lavender)); display:flex; align-items:center; justify-content:center; font-size:3.5rem; margin:0 auto 1.2rem; border:4px solid #fff; box-shadow:0 8px 24px rgba(255,107,157,.35); }
+  .chef-card h3 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:var(--dark); margin-bottom:.3rem; }
+  .chef-title { color:var(--pink); font-weight:600; font-size:.9rem; margin-bottom:1rem; }
+  .chef-quote { font-style:italic; color:var(--muted); font-size:.93rem; line-height:1.7; border-left:3px solid var(--pink); padding-left:1rem; text-align:left; margin-top:1rem; }
+  .chef-ig { display:inline-block; margin-top:1.2rem; color:var(--pink-dk); font-weight:600; font-size:.88rem; text-decoration:none; }
+  .chef-ig:hover { text-decoration:underline; }
+  .about-stats { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2.5rem; }
+  .stat-card { background:var(--cream); border-radius:16px; padding:1.2rem; border-left:4px solid var(--pink); }
+  .stat-card h3 { font-family:'Playfair Display',serif; font-size:2rem; color:var(--pink); margin-bottom:.2rem; }
+  .stat-card p { font-size:.85rem; color:var(--muted); }
+
+  /* MENU */
+  .menu { background:var(--cream); }
+  .menu-header { text-align:center; margin-bottom:4rem; }
+  .menu-header .section-label { background:var(--mint-lt); color:#1a7a5a; }
+  .menu-tabs { display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin-bottom:3rem; }
+  .tab-btn { padding:10px 22px; border-radius:50px; font-weight:600; font-size:.85rem; border:2px solid transparent; cursor:pointer; transition:all .2s; font-family:'DM Sans',sans-serif; }
+  .tab-btn.active,.tab-btn:hover { background:var(--pink); color:#fff; border-color:var(--pink); }
+  .tab-btn:not(.active) { background:#fff; color:var(--text); border-color:#E0D8F0; }
+  .menu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; max-width:1100px; margin:0 auto; }
+  .menu-card { background:#fff; border-radius:24px; overflow:hidden; transition:transform .25s,box-shadow .25s; }
+  .menu-card:hover { transform:translateY(-8px); box-shadow:0 20px 40px rgba(42,31,61,.12); }
+  .menu-card-img { height:180px; display:flex; align-items:center; justify-content:center; font-size:5rem; }
+  .menu-card-body { padding:1.5rem; }
+  .menu-card-body h3 { font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:.4rem; color:var(--dark); }
+  .menu-card-body p { font-size:.9rem; color:var(--muted); line-height:1.65; margin-bottom:1rem; }
+  .menu-card-footer { display:flex; justify-content:space-between; align-items:center; }
+  .price { font-weight:700; font-size:1.05rem; color:var(--pink); }
+  .order-btn { background:var(--dark); color:#fff; border:none; border-radius:50px; padding:8px 20px; font-size:.85rem; font-weight:600; cursor:pointer; transition:background .2s; }
+  .order-btn:hover { background:var(--pink); }
+  .tag { display:inline-block; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:4px 12px; border-radius:50px; margin-bottom:.8rem; }
+
+  /* SPECIALS */
+  .specials { background:var(--dark); color:#fff; }
+  .specials .section-label { background:rgba(255,215,61,.2); color:var(--yellow); }
+  .specials .section-title { color:#fff; }
+  .specials .section-sub { color:rgba(255,255,255,.6); }
+  .specials-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.5rem; max-width:1100px; margin:3rem auto 0; }
+  .special-card { border-radius:20px; padding:2rem; transition:transform .25s; }
+  .special-card:hover { transform:translateY(-6px); }
+  .special-card h3 { font-family:'Playfair Display',serif; font-size:1.1rem; margin-bottom:.6rem; }
+  .special-card p { font-size:.88rem; line-height:1.65; opacity:.85; }
+  .special-card .si { font-size:2.8rem; margin-bottom:1rem; display:block; }
+  .sc1{background:linear-gradient(135deg,#FF6B9D22,#FF6B9D55);border:2px solid var(--pink);}
+  .sc2{background:linear-gradient(135deg,#FFD93D22,#FFD93D55);border:2px solid var(--yellow);}
+  .sc3{background:linear-gradient(135deg,#6BCBAB22,#6BCBAB55);border:2px solid var(--mint);}
+  .sc4{background:linear-gradient(135deg,#B08FE822,#B08FE855);border:2px solid var(--lavender);}
+
+  /* HOW */
+  .how { background:var(--lav-lt); }
+  .how .section-label { background:var(--lav-lt); color:#6040b0; }
+  .how-header { text-align:center; margin-bottom:4rem; }
+  .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; max-width:1000px; margin:0 auto; position:relative; }
+  .steps::before { content:''; position:absolute; top:50px; left:15%; right:15%; height:3px; background:repeating-linear-gradient(90deg,var(--lavender) 0,var(--lavender) 20px,transparent 20px,transparent 30px); pointer-events:none; }
+  .step { text-align:center; padding:2rem 1.5rem; background:#fff; border-radius:20px; }
+  .step-num { width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; margin:0 auto 1.2rem; color:#fff; }
+  .sn1{background:var(--pink);}
+  .sn2{background:var(--mint);}
+  .sn3{background:var(--yellow);color:var(--dark)!important;}
+  .sn4{background:var(--lavender);}
+  .step h3 { font-family:'Playfair Display',serif; font-size:1.05rem; margin-bottom:.5rem; color:var(--dark); }
+  .step p { font-size:.88rem; color:var(--muted); line-height:1.65; }
+
+  /* ===================== GALLERY (FIXED) ===================== */
+  .gallery { background:#fff; }
+  .gallery .section-label { background:var(--peach-lt); color:#c45a20; }
+  .gallery-header { text-align:center; margin-bottom:3rem; }
+
+  .gallery-grid {
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    gap:1rem;
+    max-width:1100px;
+    margin:0 auto;
+  }
+
+  /* item 1 – wide (spans 2 cols) */
+  .gallery-item:nth-child(1) { grid-column: span 2; }
+  /* item 6 – wide (spans 2 cols) */
+  .gallery-item:nth-child(6) { grid-column: span 2; }
+
+  .gallery-item {
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    cursor:pointer;
+    /* fixed aspect ratio so items never collapse when image is missing */
+    aspect-ratio: 1 / 1;
+    background:var(--pink-lt); /* fallback colour */
+  }
+  /* wide items get wider aspect ratio */
+  .gallery-item:nth-child(1),
+  .gallery-item:nth-child(6) { aspect-ratio: 2 / 1; }
+
+  /* The actual <img> fills the container */
+  .gallery-item img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .4s ease;
+  }
+  .gallery-item:hover img { transform:scale(1.06); }
+
+  /* Emoji fallback — shown when img fails to load */
+  .gallery-item .emoji-fallback {
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:5rem;
+    z-index:0;
+    pointer-events:none;
+  }
+  /* Once img loads successfully, hide the fallback behind it */
+  .gallery-item img { position:relative; z-index:1; }
+
+  /* Gradient overlay for caption */
+  .gallery-overlay {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top, rgba(42,31,61,.6) 0%, transparent 50%);
+    opacity:0;
+    display:flex;
+    align-items:flex-end;
+    padding:1rem 1.2rem;
+    transition:opacity .3s;
+    z-index:2;
+  }
+  .gallery-item:hover .gallery-overlay { opacity:1; }
+  .gallery-overlay span {
+    color:#fff;
+    font-weight:600;
+    font-size:.95rem;
+    transform:translateY(6px);
+    transition:transform .3s;
+  }
+  .gallery-item:hover .gallery-overlay span { transform:translateY(0); }
+
+  /* Gradient backgrounds per item (visible as fallback) */
+  .gi1{background:linear-gradient(135deg,#FFE0EC,#FFF8D6);}
+  .gi2{background:linear-gradient(135deg,#D8F5EC,#DFF4FD);}
+  .gi3{background:linear-gradient(135deg,#EDE4FF,#FFE0EC);}
+  .gi4{background:linear-gradient(135deg,#FFE8D8,#FFF8D6);}
+  .gi5{background:linear-gradient(135deg,#DFF4FD,#EDE4FF);}
+  .gi6{background:linear-gradient(135deg,#FFF8D6,#D8F5EC);}
+  /* ============================================================ */
+
+  /* TESTIMONIALS */
+  .testimonials { background:linear-gradient(135deg,var(--pink-lt),var(--yellow-lt)); }
+  .testimonials .section-label { background:var(--pink-lt); color:var(--pink-dk); }
+  .test-header { text-align:center; margin-bottom:3rem; }
+  .test-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; max-width:1100px; margin:0 auto; }
+  .test-card { background:#fff; border-radius:20px; padding:2rem; transition:transform .25s; position:relative; }
+  .test-card:hover { transform:translateY(-5px); }
+  .test-card::before { content:'"'; position:absolute; top:-10px; left:20px; font-family:'Playfair Display',serif; font-size:5rem; color:var(--pink); line-height:1; }
+  .test-text { font-size:.93rem; line-height:1.75; color:var(--text); margin-bottom:1.5rem; padding-top:1rem; }
+  .test-author { display:flex; align-items:center; gap:12px; }
+  .test-avatar { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+  .test-name { font-weight:700; font-size:.9rem; color:var(--dark); }
+  .test-stars { color:var(--yellow); font-size:.85rem; }
+
+  /* FAQ */
+  .faq { background:#fff; }
+  .faq .section-label { background:var(--sky-lt); color:#0a6080; }
+  .faq-header { text-align:center; margin-bottom:3rem; }
+  .faq-wrap { max-width:700px; margin:0 auto; }
+  .faq-item { border-bottom:2px solid var(--pink-lt); }
+  .faq-q { width:100%; background:none; border:none; text-align:left; font-family:'DM Sans',sans-serif; font-weight:600; font-size:1rem; color:var(--dark); padding:1.4rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+  .faq-icon { flex-shrink:0; font-size:1.4rem; color:var(--pink); transition:transform .3s; }
+  .faq-item.open .faq-icon { transform:rotate(45deg); }
+  .faq-a { font-size:.93rem; color:var(--muted); line-height:1.75; max-height:0; overflow:hidden; transition:max-height .4s ease,padding .3s; }
+  .faq-item.open .faq-a { max-height:200px; padding-bottom:1.2rem; }
+
+  /* CONTACT */
+  .contact { background:var(--dark); color:#fff; }
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:6vw; max-width:1100px; margin:0 auto; }
+  .contact-info .section-label { background:rgba(255,107,157,.2); color:var(--pink); }
+  .contact-info .section-title { color:#fff; }
+  .contact-info .section-sub { color:rgba(255,255,255,.6); }
+  .contact-details { margin-top:2.5rem; display:flex; flex-direction:column; gap:1.2rem; }
+  .contact-detail { display:flex; gap:1rem; align-items:flex-start; }
+  .detail-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+  .di-pink{background:rgba(255,107,157,.2);} .di-mint{background:rgba(107,203,171,.2);} .di-yellow{background:rgba(255,217,61,.2);} .di-lav{background:rgba(176,143,232,.2);}
+  .detail-text p:first-child { font-weight:600; font-size:.82rem; color:rgba(255,255,255,.5); margin-bottom:.2rem; text-transform:uppercase; letter-spacing:.1em; }
+  .detail-text p:last-child { color:#fff; font-size:.95rem; }
+  a.info-link { color:#fff; text-decoration:none; font-weight:700; }
+  a.info-link:hover { color:var(--pink); }
+  .contact-form { background:rgba(255,255,255,.06); border-radius:24px; padding:2.5rem; border:1px solid rgba(255,255,255,.1); }
+  .contact-form h3 { font-family:'Playfair Display',serif; font-size:1.4rem; color:#fff; margin-bottom:1.5rem; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .form-group { margin-bottom:1.2rem; }
+  .form-group label { display:block; font-size:.8rem; font-weight:600; color:rgba(255,255,255,.6); margin-bottom:.5rem; text-transform:uppercase; letter-spacing:.08em; }
+  .form-group input,.form-group select,.form-group textarea { width:100%; background:rgba(255,255,255,.08); border:1.5px solid rgba(255,255,255,.15); border-radius:12px; padding:12px 16px; color:#fff; font-family:'DM Sans',sans-serif; font-size:.95rem; transition:border-color .2s; }
+  .form-group input::placeholder,.form-group textarea::placeholder { color:rgba(255,255,255,.35); }
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus { outline:none; border-color:var(--pink); }
+  .form-group select option { background:var(--dark); }
+  .form-group textarea { height:100px; resize:vertical; }
+  .submit-btn { width:100%; background:var(--pink); color:#fff; border:none; border-radius:50px; padding:16px; font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:700; cursor:pointer; transition:background .2s,transform .15s; box-shadow:0 6px 24px rgba(255,107,157,.35); }
+  .submit-btn:hover { background:var(--pink-dk); transform:translateY(-2px); }
+
+  /* MAP */
+  .map-section { background:var(--cream); padding:80px 5vw; }
+  .map-header { text-align:center; margin-bottom:3rem; }
+  .map-header .section-label { background:var(--mint-lt); color:#1a7a5a; }
+  .map-wrapper { max-width:1100px; margin:0 auto; border-radius:24px; overflow:hidden; border:3px solid var(--pink); box-shadow:0 20px 60px rgba(255,107,157,.2); }
+  .map-wrapper iframe { display:block; width:100%; height:420px; border:none; }
+  .map-bar { background:var(--dark); color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; padding:1.2rem 2rem; }
+  .map-bar .addr { display:flex; align-items:center; gap:.8rem; font-size:.95rem; }
+  .map-bar .addr b { font-weight:700; }
+  .map-btn { color:#fff; text-decoration:none; padding:10px 22px; border-radius:50px; font-weight:600; font-size:.88rem; transition:background .2s,transform .15s; }
+  .map-btn:hover { transform:scale(1.04); }
+  .mb-pink { background:var(--pink); }
+  .mb-mint  { background:var(--mint); }
+
+  /* FOOTER */
+  footer { background:#1A1030; color:rgba(255,255,255,.7); padding:60px 5vw 30px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1100px; margin:0 auto 3rem; }
+  .footer-brand .nav-logo { margin-bottom:1rem; display:block; }
+  .footer-brand p { font-size:.9rem; line-height:1.75; }
+  .footer-col h4 { color:#fff; font-weight:700; font-size:.85rem; text-transform:uppercase; letter-spacing:.1em; margin-bottom:1.2rem; }
+  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:.7rem; }
+  .footer-col a { color:rgba(255,255,255,.6); text-decoration:none; font-size:.9rem; transition:color .2s; }
+  .footer-col a:hover { color:var(--pink); }
+  .footer-social { display:flex; gap:.8rem; margin-top:1.5rem; }
+  .social-btn { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; text-decoration:none; transition:transform .2s; }
+  .social-btn:hover { transform:scale(1.15); }
+  .sb-ig{background:linear-gradient(135deg,var(--peach),var(--pink));} .sb-wa{background:#25d366;} .sb-gm{background:#4285F4;}
+  .footer-bottom { border-top:1px solid rgba(255,255,255,.1); padding-top:1.5rem; text-align:center; font-size:.85rem; color:rgba(255,255,255,.4); max-width:1100px; margin:0 auto; }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s,transform .7s; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:30px; right:30px; z-index:999; background:var(--dark); color:#fff; padding:14px 24px; border-radius:50px; font-weight:600; font-size:.9rem; border-left:4px solid var(--mint); transform:translateY(100px); opacity:0; transition:transform .4s,opacity .4s; pointer-events:none; max-width:calc(100vw - 60px); }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  /* ===================== RESPONSIVE ===================== */
+
+  /* Tablet */
+  @media(max-width:900px) {
+    .about-grid { grid-template-columns:1fr; }
+    .about-visual { display:flex; justify-content:center; }
+    .chef-card { max-width:100%; }
+
+    .contact-grid { grid-template-columns:1fr; }
+
+    /* Gallery: 2 cols on tablet */
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
+    .gallery-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-item:nth-child(6) { grid-column: span 2; aspect-ratio: 16/9; }
+
+    .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+    .map-wrapper iframe { height:320px; }
+  }
+
+  /* Mobile */
+  @media(max-width:600px) {
+    section { padding:60px 4vw; }
+    .map-section { padding:60px 4vw; }
+
+    /* Nav: hide links, keep logo + CTA */
+    .nav-links { display:none; }
+    .nav-logo { font-size:1.1rem; }
+    .nav-order { padding:8px 16px; font-size:.82rem; }
+
+    /* Hero */
+    .hero { padding:90px 4vw 50px; }
+    .hero-badge { font-size:.72rem; padding:6px 14px; }
+    .floaty { font-size:1.8rem; opacity:.5; }
+    .hero-ctas { gap:.75rem; }
+    .btn-primary, .btn-secondary { padding:13px 24px; font-size:.9rem; }
+
+    /* About stats: 2 cols stay fine */
+    .about-stats { grid-template-columns:1fr 1fr; }
+    .chef-card { padding:1.8rem; }
+
+    /* Menu tabs scroll horizontally */
+    .menu-tabs { flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start; padding-bottom:.5rem; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+    .menu-tabs::-webkit-scrollbar { display:none; }
+    .tab-btn { flex-shrink:0; }
+
+    /* Gallery: 1 col on mobile */
+    .gallery-grid { grid-template-columns:1fr; gap:.75rem; }
+    .gallery-item:nth-child(1) { grid-column:span 1; aspect-ratio:16/9; }
+    .gallery-item:nth-child(6) { grid-column:span 1; aspect-ratio:16/9; }
+    .gallery-item { aspect-ratio:4/3; }
+
+    /* Steps: no dashed line */
+    .steps::before { display:none; }
+    .steps { grid-template-columns:1fr; gap:1rem; }
+
+    /* Contact form */
+    .form-row { grid-template-columns:1fr; }
+    .contact-form { padding:1.8rem; }
+
+    /* Map */
+    .map-wrapper iframe { height:250px; }
+    .map-bar { flex-direction:column; align-items:flex-start; padding:1rem 1.2rem; gap:.75rem; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns:1fr; gap:2rem; }
+
+    /* Specials */
+    .specials-grid { grid-template-columns:1fr; }
+
+    /* Toast */
+    .toast { right:16px; bottom:16px; left:16px; max-width:none; text-align:center; font-size:.85rem; }
+  }
+
+  /* Very small phones */
+  @media(max-width:380px) {
+    .hero h1 { font-size:2rem; }
+    .section-title { font-size:1.6rem; }
+    .about-stats { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span style="font-size:1.6rem;">🎂</span>
+    Compliment <span>Cakes</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Մեր մասին</a></li>
+    <li><a href="#menu">Մենյու</a></li>
+    <li><a href="#gallery">Գալերեա</a></li>
+    <li><a href="#how">Ինչպես պատվիրել</a></li>
+    <li><a href="#contact">Կապ</a></li>
+  </ul>
+  <a class="nav-order" href="#contact">Պատվիրել հիմա</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-blobs">
+    <div class="blob blob1"></div><div class="blob blob2"></div>
+    <div class="blob blob3"></div><div class="blob blob4"></div>
+  </div>
+  <span class="floaty f1">🌸</span><span class="floaty f2">✨</span>
+  <span class="floaty f3">🌿</span><span class="floaty f4">🎀</span><span class="floaty f5">⭐</span>
+  <div class="hero-content">
+    <div class="hero-badge">✨ Երևան, Հայաստան · 14 տարի Ձեզ հետ</div>
+    <h1>Նվիրիր տորթ՝<br>արա <em>կոմպլիմենտ</em></h1>
+    <p class="hero-sub">Ձեռքով պատրաստված, սիրով թխված տորթեր ամեն մի տոնի և հատուկ պահի համար։ Ամեն կոմպլիմենտ — մի անկրկնելի հիշողություն։</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#menu">Դիտել մենյուն</a>
+      <a class="btn-secondary" href="#contact">Պատվիրել</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <span class="section-label">Մեր մասին</span>
+      <h2 class="section-title">Կրքից ծնված,<br>սիրով թխված</h2>
+      <p class="section-sub">Compliment Cakes-ը ստեղծվել է մի պարզ գաղափարի հիման վրա. ամենալավ կոմպլիմենտը, որ կարող ես անել, գեղեցիկ ու ձեռքով պատրաստված տորթն է։ Ամեն շերտ պատմություն է, ամեն զարդ — սրտի ջերմություն։ Արդեն <strong>14 տարի</strong> Ձեր կողքին ենք, Նոր Նորքից՝ ամբողջ Երևան։</p>
+      <div class="about-stats">
+        <div class="stat-card"><h3>14+</h3><p>Տարի Ձեզ հետ</p></div>
+        <div class="stat-card"><h3>500+</h3><p>Հատուկ պատվիրված տորթ</p></div>
+        <div class="stat-card"><h3>100%</h3><p>Բնական բաղադրիչներ</p></div>
+        <div class="stat-card"><h3>5⭐</h3><p>Հաճախորդների գնահատական</p></div>
+      </div>
+    </div>
+    <div class="about-visual reveal" style="display:flex;justify-content:center;">
+      <div class="chef-card">
+        <div class="chef-avatar">👩‍🍳</div>
+        <h3>Նատալյա Սիմոնյան</h3>
+        <p class="chef-title">Գլխավոր հրուշակագետ / Chef</p>
+        <p class="chef-quote">«Ես հավատում եմ, որ ամեն տորթ պետք է ասի "սիրում եմ", "շնորհավոր" կամ "հպարտ եմ"։ Ամեն մի պատվեր ինձ համար հատուկ է»</p>
+        <a class="chef-ig" href="https://www.instagram.com/nata_pastry_chef" target="_blank">📷 @nata_pastry_chef</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-header reveal">
+    <span class="section-label">Մեր ստեղծագործությունները</span>
+    <h2 class="section-title">Ամեն առիթի համար մի տորթ</h2>
+    <p class="section-sub" style="margin:0 auto;">Անձնական ծննդյան տոնից մինչև շքեղ հարսանիք — ձեր կատարյալ տորթն արդեն մեզ մոտ է սպասում։</p>
+  </div>
+  <div class="menu-tabs reveal">
+    <button class="tab-btn active" onclick="filterMenu('all',this)">Բոլորը</button>
+    <button class="tab-btn" onclick="filterMenu('birthday',this)">Ծննդյան</button>
+    <button class="tab-btn" onclick="filterMenu('wedding',this)">Հարսանեկան</button>
+    <button class="tab-btn" onclick="filterMenu('custom',this)">Հատուկ պատվեր</button>
+    <button class="tab-btn" onclick="filterMenu('seasonal',this)">Սեզոնային</button>
+  </div>
+  <div class="menu-grid" id="menu-grid">
+    <div class="menu-card reveal" data-cat="birthday">
+      <div class="menu-card-img" style="background:linear-gradient(135deg,#FFE0EC,#FFF8D6);">🎂</div>
+      <div class="menu-card-body">
+        <span class="tag" style="background:var(--pink-lt);color:var(--pink-dk);">Ծննդյան</span>
+        <h3>Դասական տոնական տորթ</h3>
+        <p>Թխված վանիլի բիսկվիտ, թարմ կրեմ, մրգային շերտեր և ձեր ընտրած մակագրությամբ։</p>
+        <div class="menu-card-footer"><span class="price">Սկսած ֏8,500</span><button class="order-btn" onclick="addToOrder('Դասական տոնական տորթ')">Պատվիրել</button></div>
+      </div>
+    </div>
+    <div class="menu-card reveal" data-cat="birthday">
+      <div class="menu-card-img" style="background:linear-gradient(135deg,#D8F5EC,#DFF4FD);">🍫</div>
+      <div class="menu-card-body">
+        <span class="tag" style="background:var(--mint-lt);color:#1a7a5a;">Ամենից պահանջված</span>
+        <h3>Մուգ շոկոլադե երազ</h3>
+        <p>Հարուստ շոկոլադե շերտեր, գանաշ կրեմ և սուրճային էսենցիա — իրական հաճույք։</p>
+        <div class="menu-card-footer"><span class="price">Սկսած ֏9,200</span><button class="order-btn" onclick="addToOrder('Մուգ շոկոլադե երազ')">Պատվիրել</button></div>
+      </div>
+    </div>
+    <div class="menu-card reveal" data-cat="wedding">
+      <div class="menu-card-img" style="background:linear-gradient(135deg,#EDE4FF,#FFE0EC);">💍</div>
+      <div class="menu-card-body">
+        <span class="tag" style="background:var(--lav-lt);color:#6040b0;">Հարսանեկան</span>
+        <h3>Արքայական հարսանեկան տորթ</h3>
+        <p>Բազմահարկ գլուխգործոց ձեռքով ձևված ծաղիկներով, ժապավեններով, ցանկացած համ։</p>
+        <div class="menu-card-footer"><span class="price">Սկսած ֏35,000</span><button class="order-btn" onclick="addToOrder('Արքայական հարսանեկան տորթ')">Պատվիրել</button></div>
+      </div>
+    </div>
+    <div class="menu-card reveal" data-cat="custom">
+      <div class="menu-card-img" style="background:linear-gradient(135deg,#FFE8D8,#FFF8D6);">🎨</div>
+      <div class="menu-card-body">
+        <span class="tag" style="background:var(--peach-lt);color:#c45a20;">Հատուկ պատվեր</span>
+        <h3>Ձուլվածք-տորթ</h3>
+        <p>3D ձևի տորթ ձեր ցանկացած պատկերով — կերպավոր, կենդանի, ցանկացած թեմա։</p>
+        <div class="menu-card-footer"><span class="price">Սկսած ֏18,000</span><button class="order-btn" onclick="addToOrder('Ձուլվածք-տորթ')">Պատվիրել</button></div>
+      </div>
+    </div>
+    <div class="menu-card reveal" data-cat="seasonal">
+      <div class="menu-card-img" style="background:linear-gradient(135deg,#DFF4FD,#EDE4FF);">🍓</div>
+      <div class="menu-card-body">
+        <span class="tag" style="background:var(--sky-lt);color:#0a6080;">Սեզոնային</span>
+        <h3>Ամառային ելակ ամպ</h3>
+        <p>Թեթև շիֆոնային շերտեր, թարմ ելակ և ամպային խփած կրեմ — ամառային ուրախություն։</p>
+        <div class="menu-card-footer"><span class="price">Սկսած ֏10,500</span><button class="order-btn" onclick="addToOrder('Ամառային ելակ ամպ')">Պատվիրել</button></div>
+      </div>
+    </div>
+    <div class="menu-card reveal" data-cat="birthday custom">
+      <div class="menu-card-img" style="background:linear-gradient(135deg,#FFF8D6,#D8F5EC);">🌸</div>
+      <div class="menu-card-body">
+        <span class="tag" style="background:var(--yellow-lt);color:#8a6a00;">Նոր</span>
+        <h3>Ծաղկանոցային տորթ</h3>
+        <p>Ձեռքով ձևված շաքարե ծաղիկներ — կենդանի ծաղկանոց ֆիստաշկայի կրեմի վրա։</p>
+        <div class="menu-card-footer"><span class="price">Սկսած ֏14,000</span><button class="order-btn" onclick="addToOrder('Ծաղկանոցային տորթ')">Պատվիրել</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section class="specials" id="specials">
+  <div style="max-width:1100px;margin:0 auto;">
+    <span class="section-label">Հատուկ առաջարկներ</span>
+    <h2 class="section-title">Քաղցր պայմաններ բոլորի համար</h2>
+    <p class="section-sub">Լրացուցիչ ուրախություն ամեն պատվիրատուի համար։</p>
+    <div class="specials-grid">
+      <div class="special-card sc1 reveal"><span class="si">🎉</span><h3>Ծննդյան փաթեթ</h3><p>Տորթ + 12 կուպչիկ + հատուկ բացիկ։ Փաթեթի ձևաչափով՝ 15% զեղչ։</p></div>
+      <div class="special-card sc2 reveal"><span class="si">💌</span><h3>Նախնական պատվեր</h3><p>Պատվիրելով 2+ շաբաթ առաջ՝ ստացեք 10% զեղչ ցանկացած հատուկ պատվերի վրա։</p></div>
+      <div class="special-card sc3 reveal"><span class="si">👰</span><h3>Հարսանյաց սեզոն</h3><p>Անվճար փորձ-համտեսում ֏50,000+ արժողությամբ հարսանեկան տորթի պատվիրատուների համար։</p></div>
+      <div class="special-card sc4 reveal"><span class="si">🔁</span><h3>Հավատարիմ հաճախորդ</h3><p>5-րդ պատվիրի ժամանակ՝ անվճար mini կուպչիկների հավաքածու որպես նվեր։</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-header reveal">
+    <span class="section-label">Ինչպես պատվիրել</span>
+    <h2 class="section-title">Ձեր երազային տորթը 4 քայլով</h2>
+    <p class="section-sub" style="margin:0 auto;">Պարզ, ուրախ և լիովին անհատականացված՝ սկզբից մինչև առաջին կծոց։</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal"><div class="step-num sn1">1</div><h3>Կիսվեք ձեր երազով</h3><p>Լրացրեք պատվերի ձևը — համ, ձև, ամսաթիվ, թեմա։ Ոչ մի գաղափար չափից մեծ չէ։</p></div>
+    <div class="step reveal"><div class="step-num sn2">2</div><h3>Հաստատում ենք</h3><p>Կանդրադառնանք ձեր պատվերին, կառաջարկենք գաղափարներ, կհաստատենք ամեն ինչ։</p></div>
+    <div class="step reveal"><div class="step-num sn3">3</div><h3>Թխվում է սիրով</h3><p>Ձեր տորթը պատրաստվում է թարմ, բարձրորակ բաղադրիչներից Նատայի ձեռքերով։</p></div>
+    <div class="step reveal"><div class="step-num sn4">4</div><h3>Հասնում է Ձեզ</h3><p>Ուշադիր փաթեթավորված — կամ հասցնում ենք, կամ ստուդիայից վերցնում։</p></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header reveal">
+    <span class="section-label">Գալերեա</span>
+    <h2 class="section-title">Սիրով պատրաստված, ուրախությամբ հասցված</h2>
+  </div>
+
+  <div class="gallery-grid reveal">
+
+    <div class="gallery-item gi1">
+      <div class="emoji-fallback">🎂</div>
+      <img src="birthday_cake.jpg" alt="Birthday Cake" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span>Ծննդյան գլուխգործոց</span></div>
+    </div>
+
+    <div class="gallery-item gi2">
+      <div class="emoji-fallback">🌸</div>
+      <img src="flower_cake.jpg" alt="Flower Cake" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span>Ծաղկանոց</span></div>
+    </div>
+
+    <div class="gallery-item gi3">
+      <div class="emoji-fallback">💍</div>
+      <img src="wedding_cake.jpg" alt="Wedding Cake" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span>Հարսանեկան</span></div>
+    </div>
+
+    <div class="gallery-item gi4">
+      <div class="emoji-fallback">🍫</div>
+      <img src="chocolate_cake.jpg" alt="Chocolate Cake" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span>Շոկոլադե երազ</span></div>
+    </div>
+
+    <div class="gallery-item gi5">
+      <div class="emoji-fallback">🎨</div>
+      <img src="unique_cake.jpg" alt="Custom Cake" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span>Հատուկ ձուլվածք</span></div>
+    </div>
+
+    <div class="gallery-item gi6">
+      <div class="emoji-fallback">🍓</div>
+      <img src="summer_cake.jpg" alt="Strawberry Cake" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span>Ամառային ելակ</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div class="test-header reveal">
+    <span class="section-label">Հաճախորդների կարծիքներ</span>
+    <h2 class="section-title">Բառեր, որ քաղցրացնում են մեր օրը</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal"><p class="test-text">Հարսանեկան տորթն անգամ մտքումս չէր, որ կարող է այդքան կատարյալ լինել։ Բոլոր հյուրերն ապշած էին։ Compliment Cakes-ն ճիշտ անուն ունի։</p><div class="test-author"><div class="test-avatar" style="background:var(--pink-lt);">👰</div><div><div class="test-name">Անի Հարությունյան</div><div class="test-stars">★★★★★</div></div></div></div>
+    <div class="test-card reveal"><p class="test-text">Տղայիս 5-ամյա ծննդյան համար պատվիրեցի դինոզավր-տորթ։ Երեխան բառացիորեն ճչաց ուրախությունից։ Մանրամասները անհավատալի էին գնի համար։</p><div class="test-author"><div class="test-avatar" style="background:var(--mint-lt);">👨</div><div><div class="test-name">Դավիթ Մկրտչյան</div><div class="test-stars">★★★★★</div></div></div></div>
+    <div class="test-card reveal"><p class="test-text">Շոկոլադե տորթն անհավատալիորեն հյութոտ էր, գանաշն անթերի։ Արդեն երրորդ անգամ եմ պատվիրում — ուրիշ տեղ չեմ գնա։</p><div class="test-author"><div class="test-avatar" style="background:var(--lav-lt);">👩</div><div><div class="test-name">Նարե Պետրոսյան</div><div class="test-stars">★★★★★</div></div></div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-header reveal">
+    <span class="section-label">Հաճախ տրվող հարցեր</span>
+    <h2 class="section-title">Հարցեր? Ունենք պատասխաններ</h2>
+  </div>
+  <div class="faq-wrap reveal">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Որքան վաղ պետք է պատվիրել? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Սովորական տորթերի համար՝ առնվազն 5–7 օր առաջ, հատուկ կամ հարսանեկան տորթերի համար՝ 2+ շաբաթ, որպեսզի ամեն ինչ կատարյալ ստացվի։</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Կա՞ն առաքում Երևանում? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Այո, Երևանի ողջ տարածքում ենք առաքում։ Կարող եք նաև անվճար ստանալ ստուդիայից՝ Նոր Նորք 2-րդ զանգված, Թոթովենց 3/7 հասցեով։</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Կարո՞ղ եմ ընտրել ցանկացած ձև ու համ? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Անշուշտ։ Հատուկ ստեղծագործությունները մեր մասնագիտությունն են։ Ուղղակի նկարագրեք ձեր գաղափարը, մենք կիրականացնենք։</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Կա՞ն անգլուտեն կամ վեգան տարբերակներ? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Այո, կան անգլուտեն և վեգան-բարեկամ տարբերակներ։ Պատվիրելիս, խնդրում ենք, նշել ձեր սննդային առանձնահատկությունները։</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Ինչպե՞ս կատարել վճարումը? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Ընդունում ենք կանխիկ և բանկային փոխանցում։ Հատուկ պատվերների հաստատման համար պահանջվում է 50% կանխավճար, մնացածը՝ ստանալիս։</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <span class="section-label">Կապ հաստատել</span>
+      <h2 class="section-title">Եկեք թխենք<br>ինչ-որ հատուկ բան</h2>
+      <p class="section-sub">Պատրա՞ստ եք պատվիրել կամ ուղղակի ցանկանում եք ողջունել — ուրախ կլինենք լսել Ձեզ։</p>
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="detail-icon di-pink">📍</div>
+          <div class="detail-text">
+            <p>Հասցե</p>
+            <p>Նոր Նորք 2-րդ զ., Թոթովենց 3/7, Երևան</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="detail-icon di-mint">📞</div>
+          <div class="detail-text">
+            <p>Հեռախոս (պատվերների համար)</p>
+            <p>
+              <a class="info-link" href="tel:+37455179525">055 179 525</a>
+              &nbsp;|&nbsp;
+              <a class="info-link" href="tel:+37493188525">093 188 525</a>
+            </p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="detail-icon di-yellow">📷</div>
+          <div class="detail-text">
+            <p>Instagram</p>
+            <p><a class="info-link" href="https://www.instagram.com/nata_pastry_chef" target="_blank">@nata_pastry_chef</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="detail-icon di-lav">🕐</div>
+          <div class="detail-text">
+            <p>Աշխատանքային ժամեր</p>
+            <p>Երկ–Շբթ: 10:00 – 20:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h3>Թողեք պատվեր 🎂</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Ձեր անունը</label><input type="text" placeholder="Անի Հարությունյան" id="f-name"></div>
+        <div class="form-group"><label>Հեռախոս</label><input type="text" placeholder="055 ··· ···" id="f-contact"></div>
+      </div>
+      <div class="form-group">
+        <label>Տորթի տեսակ</label>
+        <select id="f-type">
+          <option value="">Ընտրեք...</option>
+          <option>Ծննդյան տորթ</option>
+          <option>Հարսանեկան տորթ</option>
+          <option>Հատուկ / Ձուլվածք</option>
+          <option>Սեզոնային</option>
+          <option>Կուպչիկ</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Տոնի ամսաթիվ</label><input type="date" id="f-date"></div>
+        <div class="form-group"><label>Հյուրերի քանակ</label><input type="number" placeholder="օր. 20" id="f-servings" min="1"></div>
+      </div>
+      <div class="form-group"><label>Նկարագրեք ձեր երազային տորթը</label><textarea placeholder="Պատմեք համի, գույնի, թեմայի, մակագրության մասին..." id="f-desc"></textarea></div>
+      <button class="submit-btn" onclick="submitOrder()">Ուղարկել հայտ 🎀</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section" id="map">
+  <div class="map-header reveal">
+    <span class="section-label">Մեր գտնվելու վայրը</span>
+    <h2 class="section-title">Կարող եք գտնել մեզ այստեղ</h2>
+    <p class="section-sub" style="margin:0 auto;">Նոր Նորք 2-րդ զանգված, Թոթովենց 3/7, Երևան, Հայաստան</p>
+  </div>
+  <div class="map-wrapper reveal">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3047.5!2d44.5678743!3d40.2018208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406aa352b3c20c25%3A0x739849d2add4c1f4!2sCompliment%20Cakes!5e0!3m2!1shy!2sam!4v1715000000000!5m2!1shy!2sam"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Compliment Cakes map">
+    </iframe>
+    <div class="map-bar">
+      <div class="addr">
+        <span style="font-size:1.3rem;">📍</span>
+        <span>Թոթովենց 3/7, Նոր Նորք 2-րդ զ., <b>Երևան</b></span>
+      </div>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+        <a class="map-btn mb-pink" href="https://maps.app.goo.gl/6x9MEB98JgPgU6KL7" target="_blank">🗺 Բացել Google Maps-ում</a>
+        <a class="map-btn mb-mint" href="tel:+37455179525">📞 055 179 525</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#">🎂 Compliment <span>Cakes</span></a>
+      <p>Ձեռքով պատրաստված տորթեր ամեն տոնի համար։ Սիրով թխված Երևանում, Հայաստան — Chef Նատայի հետ 14 տարի։</p>
+      <div class="footer-social">
+        <a class="social-btn sb-ig" href="https://www.instagram.com/nata_pastry_chef" target="_blank" title="Instagram">📷</a>
+        <a class="social-btn sb-wa" href="tel:+37455179525" title="Զանգել">📞</a>
+        <a class="social-btn sb-gm" href="https://maps.app.goo.gl/6x9MEB98JgPgU6KL7" target="_blank" title="Google Maps">🗺</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Մենյու</h4>
+      <ul>
+        <li><a href="#menu">Ծննդյան տորթ</a></li>
+        <li><a href="#menu">Հարսանեկան տորթ</a></li>
+        <li><a href="#menu">Հատուկ պատվեր</a></li>
+        <li><a href="#menu">Սեզոնային</a></li>
+        <li><a href="#menu">Կուպչիկ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ընկերություն</h4>
+      <ul>
+        <li><a href="#about">Մեր մասին</a></li>
+        <li><a href="#gallery">Գալերեա</a></li>
+        <li><a href="#reviews">Կարծիքներ</a></li>
+        <li><a href="#how">Ինչպես պատվիրել</a></li>
+        <li><a href="#faq">Հ.Տ.Հ.</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Կապ</h4>
+      <ul>
+        <li><a href="#contact">Պատվիրել</a></li>
+        <li><a href="tel:+37455179525">055 179 525</a></li>
+        <li><a href="tel:+37493188525">093 188 525</a></li>
+        <li><a href="https://www.instagram.com/nata_pastry_chef" target="_blank">@nata_pastry_chef</a></li>
+        <li><a href="#map">Մեր հասցեն</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Compliment Cakes · Chef Նատալյա Սիմոնյան · Թոթովենց 3/7, Նոր Նորք, Երևան · Պատրաստված 💖-ով</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => io.observe(r));
+
+  function filterMenu(cat, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.menu-card').forEach(card => {
+      const cats = card.dataset.cat || '';
+      card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+    });
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  function addToOrder(name) {
+    showToast('🎂 «' + name + '» ավելացված! Լրացրեք ձևը ներքևում։');
+    document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+  }
+
+  function submitOrder() {
+    const name = document.getElementById('f-name').value.trim();
+    const contact = document.getElementById('f-contact').value.trim();
+    const type = document.getElementById('f-type').value;
+    if(!name || !contact || !type) {
+      showToast('⚠️ Խնդրում ենք լրացնել անունը, հեռախոսը և տեսակը։');
+      return;
+    }
+    showToast('🎀 Հայտն ուղարկվեց! Կկապվենք 24 ժամվա ընթացքում։');
+    ['f-name','f-contact','f-desc'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f-type').value = '';
+    document.getElementById('f-servings').value = '';
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if(el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
